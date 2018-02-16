@@ -2,6 +2,11 @@ class Event < ApplicationRecord
   APPOINTMENT_DURATION_IN_MINUTES = 30
   DAYS_EXPECTED = 7
 
+  validates :kind, presence: true, inclusion: { in: %w(opening appointment), message: "not a valid kind" }
+  validates :starts_at, presence: true
+  validates :ends_at, presence: true
+  validates :weekly_recurring, inclusion: { in: [true, false, nil], message: "not a valid weekly recurring information" }
+
   def self.availabilities(first_day_date)
     @week_schedule = []
     DAYS_EXPECTED.times { |day_index| @week_schedule << { day: first_day_date + day_index, openings: [], appointments: [], slots: [] } }
