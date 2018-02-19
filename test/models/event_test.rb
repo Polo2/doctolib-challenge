@@ -18,4 +18,32 @@ class EventTest < ActiveSupport::TestCase
 
   end
 
+  test "starts_at has to happend before ends_at" do
+
+    #setup
+
+
+    #exercise
+
+    #verify
+
+    #teardown
+
+  end
+
+  test "validation for event attributes" do
+
+  event_empty = Event.new()
+  event_with_unvalid_kind = Event.new(kind: 'not_valid', starts_at: DateTime.parse("2014-08-04 09:30"), ends_at: DateTime.parse("2014-08-04 12:30"))
+  event_without_kind = Event.new(starts_at: DateTime.parse("2014-08-04 09:30"), ends_at: DateTime.parse("2014-08-04 12:30"))
+  event_correct_for_validations = Event.new(kind: 'appointment', starts_at: DateTime.parse("2014-08-11 10:30"), ends_at: DateTime.parse("2014-08-11 11:30"), weekly_recurring: true)
+
+  assert_equal event_empty.save, false
+  assert_equal event_with_unvalid_kind.save, false
+  assert_equal event_without_kind.save, false
+  assert_equal event_correct_for_validations.save, true
+
+  end
+
+
 end
