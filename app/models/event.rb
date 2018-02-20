@@ -6,6 +6,9 @@ class Event < ApplicationRecord
   validates :starts_at, presence: true
   validates :ends_at, presence: true
   validates :weekly_recurring, inclusion: { in: [true, false, nil], message: "not a valid weekly recurring information" }
+  validate :starts_at_has_to_be_earlier_than_ends_at
+
+
 
   def self.availabilities(first_day_date)
     @week_schedule = []
@@ -57,4 +60,13 @@ class Event < ApplicationRecord
     end
     openings
   end
+
+  def starts_at_has_to_be_earlier_than_ends_at
+    if starts_at.present? && ends_at.present? && starts_at > ends_at
+      errors.add(:starts_at, "can't be earlier than start's date")
+    end
+  end
+
+
+
 end
